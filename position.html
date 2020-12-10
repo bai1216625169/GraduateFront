@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="resource/image/favicon.ico" />
+    <link rel="stylesheet" href="resource/css/shared.css" />
+    <link rel="stylesheet" href="resource/css/position.css" />
+    <title>职位</title>
+  </head>
+  <body>
+    <header id="appheader">
+      <div class="logo">
+        <a href="#">毕业设计</a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">主页</a></li>
+          <li><a href="position.html">职位</a></li>
+          <li><a href="product.html">产品与服务</a></li>
+          <li><a href="recruitment.html">校园招聘</a></li>
+          <li><a href="#">|</a></li>
+          <li><a href="logo.html">登录</a></li>
+          <li><a href="#">{{ msg }}</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="positionbgc">
+      <h1>和优秀的人,做有挑战的事</h1>
+    </section>
+    <section class="wicket">
+      <div class="category">
+        <div><span>筛选</span> <span>清除</span></div>
+        <div>
+          <h3>职位类别</h3>
+          <ul>
+            <li><span name="checkbox"></span><span>研发</span> </li>
+            <li><span name="checkbox"></span><span>运营</span> </li>
+            <li><span name="checkbox"></span><span>产品</span></li>
+            <li><span name="checkbox"></span><span>职能/支持</span></li>
+            <li><span name="checkbox"></span><span>销售</span></li>
+            <li><span name="checkbox"></span><span>市场</span></li>
+            <li><span name="checkbox"></span><span>设计</span></li>
+            <li><span name="checkbox"></span><span>教研教学</span></li>
+            <li><span name="checkbox"></span><span>游戏策划</span></li>
+          </ul>
+        </div>
+        <div>
+            <h3>城市</h3>
+            <ul>
+              <li><span name="checkbox"></span><span>北京</span></li>
+              <li><span name="checkbox"></span><span>上海</span></li>
+              <li><span name="checkbox"></span><span>深圳</span></li>
+              <li><span name="checkbox"></span><span>杭州</span></li>
+              <li><span name="checkbox"></span><span>成都</span></li>
+              <li><span name="checkbox"></span><span>广州</span></li>
+              <li><span name="checkbox"></span><span>武汉</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="newjob" id="dataheader">
+          <div><h1>开启新的工作(8783)</h1></div>
+          <div>
+              <ul  v-for="item in list">
+                <li><h3>{{item.position}}</h3></li>
+                <li>{{item.address}}</li>
+                <li>{{item.ask1}}</li>
+                <li>{{item.ask2}}</li>
+              </ul>
+          </div>
+          <div>
+            <a href="#" v-for="item in indexs" @click.prevent='getPosition(item)' :class="item==cur?'pageActive':''"><span>{{item}}</span></a>
+           总页数:{{pageNumber}}
+          </div>
+      </div>
+    </section>
+    <footer>
+      <div class="mainbox">
+        <div>
+          <span>字节跳动(这仅仅是一份毕业设计)</span>
+          <span>2012-2020 北京字节跳动科技有限公司</span>
+          <span>京公网安备 11000002002023号</span>
+        </div>
+        <div>
+          <span>联系我们</span>
+          <span>关于投递</span>
+          <span>意见反馈</span>
+        </div>
+        <div><span>企业官网</span> <span>字节跳动</span></div>
+        <div>
+          <span>实时动态和招聘信息,请关注我们</span>
+          <ul>
+            <li><img src="resource/image/end1.png" alt="" /></li>
+            <li><img src="resource/image/end2.png" alt="" /></li>
+            <li><img src="resource/image/end3.png" alt="" /></li>
+            <li><img src="resource/image/end4.png" alt="" /></li>
+            <li><img src="resource/image/go9.png" alt="" /></li>
+            <li><img src="resource/image/go10.png" alt="" /></li>
+            <li><img src="resource/image/go4.png" alt="" /></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <script src="resource/lib/vue.min.js"></script>
+    <script src="resource/lib/vue-resource.js"></script>
+    <script src="resource/lib/vue-router.js"></script>
+    <script src="resource/lib/jquery.js"></script>
+    <script src="resource/js/position.js"></script>
+    <script>
+      // vue 实例
+          Vue.config.internet = "http://39.103.177.23:929";
+      var vm = new Vue({
+        el: "#appheader",
+        data: {
+          msg: "",
+        },
+        methods: {
+          getUser() {
+            var localuser = localStorage.getItem("user");
+            console.log("getUser 被执行了");
+            this.$http
+              .get(Vue.config.internet+"/getuser?user=" + localuser)
+              .then(function (res) {
+                console.log(res.body);
+                if (res.body == "NOMESSAGE") {
+                  this.msg = "NoLogin";
+                }
+                if (res.body == "SUCCESS") {
+                  this.msg = localuser;
+                }
+              });
+          },
+        },
+        created: function () {
+          this.getUser();
+        },
+      });
+      // vue 实例
+      var dataheader = new Vue({
+        el: "#dataheader",
+        data: {
+          msg: "123",
+          list:[],
+          pageNumber:10,
+          cur:1
+        },
+        methods: {
+            getPosition(item=1){
+              this.cur=item;
+                this.$http
+              .get(Vue.config.internet+"/getposition?page="+item)
+              .then(function (res) {
+                this.list=[];
+                console.log(res.body);
+                for(let i= 0 ;i<res.body.length;i++){
+                  if(i<10){
+                    this.list.push(res.body[i]);
+                  }else{
+                    this.pageNumber=res.body[i].pageNumber
+                  }
+                
+                }
+              });
+            },
+            getDate(item){
+                this.current=item;
+                console.log(this.listSave.slice(0,9));
+            }
+        },
+        created:function(){
+            this.getPosition();
+        },computed: {
+          indexs: function () {
+            //  定义 一个 left 赋值 为 1
+            var left = 1;
+            // 定义一个 right 复制 为 全部页数
+            var right = this.pageNumber;
+            // 创建 一个 空数组
+            var ar = [];
+            // 如果最大 页数 大于 5
+            if (this.pageNumber >= 5) {
+              // 如果 当前 页数 大于 三 并且 当前页数 小于 最大 页数
+              if (this.cur > 3 && this.cur < this.pageNumber - 1) {
+                //  用 当前 页数 -2 赋值 给 left
+                left = this.cur - 2;
+                // 用当前页数 +2 赋值 给 right
+                right = this.cur + 2;
+              } else {
+                // 当前页数 小于三  标准配置
+                if (this.cur <= 3) {
+                  left = 1;
+                  right = 5;
+                } else {
+                  // 末 页 配置
+                  right = this.pageNumber;
+                  left = this.pageNumber - 4;
+                }
+              }
+            }
+            // 进行 一次 循环
+            while (left <= right) {
+              ar.push(left);
+              left++;
+            }
+            return ar;
+            console.log(ar);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

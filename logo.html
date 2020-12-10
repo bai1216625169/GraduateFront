@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录</title>
+    <link rel="shortcut icon" href="resource/image/favicon.ico" />
+    <link rel="stylesheet" href="resource/css/login.css" />
+    <link rel="stylesheet" href="resource/css/shared.css" />
+    <link rel="stylesheet" href="resource/lib/animate.min.css" />
+  </head>
+  <body>
+    <header id="appheader">
+      <div class="logo">
+        <a href="#">毕业设计</a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">主页</a></li>
+          <li><a href="position.html">职位</a></li>
+          <li><a href="product.html">产品与服务</a></li>
+          <li><a href="recruitment.html">校园招聘</a></li>
+          <li><a href="#">|</a></li>
+          <li><a href="logo.html">登录</a></li>
+          <li><a href="#">{{ msg }}</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="register">
+      <div class="mainbox" id="app">
+        <div
+          class="denglu animate__animated animate__fadeInDownBig"
+          v-show="flag"
+        >
+          <div>
+            <a href="#" @click.prevent="flag=!flag">
+              <h2>还有没有账号？立即注册</h2></a
+            >
+          </div>
+          <div><img src="resource/image/title.jpg" alt="" /></div>
+          <div>
+            <input
+              type="phone"
+              placeholder="请输入登录手机号"
+              V-model="logotext"
+            />
+          </div>
+          <div>
+            <a href="#" @click.prevent="login"
+              ><img src="resource/image/anniu.jpg" alt=""
+            /></a>
+          </div>
+        </div>
+
+        <!--  -->
+
+        <div
+          class="zhuce animate__animated animate__fadeInDownBig"
+          v-show="!flag"
+        >
+          <div>
+            <a href="#" @click.prevent="flag=!flag">
+              <h2>注册,即可直接登录</h2></a
+            >
+          </div>
+          <div><img src="resource/image/title2.jpg" alt="" /></div>
+          <div>
+            <input
+              type="phone"
+              placeholder="请输入注册手机号"
+              v-model="registern"
+            />
+          </div>
+          <div>
+            <a href="#" @click.prevent="regiter"
+              ><img src="resource/image/anniu.jpg" alt=""
+            /></a>
+          </div>
+        </div>
+
+        <!--  -->
+      </div>
+    </section>
+    <footer>
+      <div class="mainbox">
+        <div>
+          <span>字节跳动(这仅仅是一份毕业设计)</span>
+          <span>2012-2020 北京字节跳动科技有限公司</span>
+          <span>京公网安备 11000002002023号</span>
+        </div>
+        <div>
+          <span>联系我们</span>
+          <span>关于投递</span>
+          <span>意见反馈</span>
+        </div>
+        <div><span>企业官网</span> <span>字节跳动</span></div>
+        <div>
+          <span>实时动态和招聘信息,请关注我们</span>
+          <ul>
+            <li><img src="resource/image/end1.png" alt="" /></li>
+            <li><img src="resource/image/end2.png" alt="" /></li>
+            <li><img src="resource/image/end3.png" alt="" /></li>
+            <li><img src="resource/image/end4.png" alt="" /></li>
+            <li><img src="resource/image/go9.png" alt="" /></li>
+            <li><img src="resource/image/go10.png" alt="" /></li>
+            <li><img src="resource/image/go4.png" alt="" /></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <section class="bottompage"></section>
+    <script src="resource/lib/vue.min.js"></script>
+    <script src="resource/lib/vue-resource.js"></script>
+    <script src="resource/lib/vue-router.js"></script>
+    <script>
+      Vue.config.internet = "http://39.103.177.23:929";
+
+      var vm2 = new Vue({
+        el: "#app",
+        data: {
+          flag: true,
+          registern: "",
+          logotext: "",
+        },
+        methods: {
+          regiter() {
+            if (
+              /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/.test(
+                this.registern
+              )
+            ) {
+              this.$http
+                .get(
+                  Vue.config.internet + "/register?registerNu=" + this.registern
+                )
+                .then(function (res) {
+                  if (res.body == "SUCCESS") {
+                    localStorage.setItem("user", this.registern);
+                    window.location.href = "index.html";
+                  }
+                  if (res.body == "already") {
+                    alert("该手机号已经注册");
+                  }
+                });
+            } else {
+              alert("请输入正确格式的手机号");
+            }
+          },
+
+          login() {
+            if (
+              /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/.test(
+                this.logotext
+              )
+            ) {
+              this.$http
+                .get(Vue.config.internet + "/getuser?user=" + this.logotext)
+                .then(function (res) {
+                  console.log(res.body);
+                  if (res.body == "NOMESSAGE") {
+                    alert("账号未注册");
+                  }
+                  if (res.body == "SUCCESS") {
+                    localStorage.setItem("user", this.logotext);
+                    window.location.href = "index.html";
+                  }
+                });
+            } else {
+              alert("请输入正确格式的手机号");
+            }
+          },
+        },
+      });
+    </script>
+    <script>
+      var vm = new Vue({
+        el: "#appheader",
+        data: {
+          msg: "",
+        },
+        methods: {
+          getUser() {
+            var localuser = localStorage.getItem("user");
+            console.log("getUser 被执行了");
+            this.$http
+              .get(Vue.config.internet + "/getuser?user=" + localuser)
+              .then(function (res) {
+                console.log(res.body);
+                if (res.body == "NOMESSAGE") {
+                  this.msg = "NoLogin";
+                }
+                if (res.body == "SUCCESS") {
+                  this.msg = localuser;
+                }
+              });
+          },
+        },
+        created: function () {
+          this.getUser();
+        },
+      });
+    </script>
+  </body>
+</html>

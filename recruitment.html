@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>招聘</title>
+    <link rel="shortcut icon" href="resource/image/favicon.ico" />
+    <link rel="stylesheet" href="resource/css/shared.css" />
+    <link rel="stylesheet" href="resource/css/recruitment.css" />
+  </head>
+  <body>
+    <!-- 视频区域 -->
+
+    <!-- 头部区域 -->
+    <header id="app">
+      <video
+        id="video"
+        object-fit:fill
+        webkit-playsinline
+        playsinline
+        x5-video-player-type="h5"
+        x5-video-orientation="portraint"
+        autoplay
+        loop
+        muted
+      >
+        <source src="resource/mp4/introduce.mp4" type="video/mp4" />
+      </video>
+      <div class="logo">
+        <a href="#">毕业设计</a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">主页</a></li>
+          <li><a href="position.html">职位</a></li>
+          <li><a href="product.html">产品与服务</a></li>
+          <li><a href="recruitment.html">校园招聘</a></li>
+          <li><a href="#">|</a></li>
+          <li><a href="logo.html">登录</a></li>
+          <li><a href="#">{{ msg }}</a></li>
+        </ul>
+      </nav>
+    </header>
+    <!-- 搜索框区域 -->
+    <article class="lastheader" id="header" @click.prevent.self="flag=false">
+      <div class="frame" v-show="flag">
+        <div class="left">
+          <h3>字节跳动校园招聘</h3>
+          <h4>J o i n B y t e D a n c e</h4>
+        </div>
+        <div class="right">
+          <div class="rightTop" @click.prevent="go">
+            <div>
+              <h3>应届生投递</h3>
+              <p>2020 年 9 月-2021 年 8 月期</p>
+              <p>间毕业的学生</p>
+            </div>
+            <div>
+              <img src="resource/image/frameright1.png" alt="" />
+            </div>
+          </div>
+          <div class="rightBottom" @click.prevent="go">
+            <div>
+              <h3>实习生投递</h3>
+              <p>全部在校生</p>
+            </div>
+            <div>
+              <img src="resource/image/frameright2.png" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap">
+        <div>字节跳动 2021 校园招聘</div>
+        <div>在更大的世界，做最好的自己</div>
+        <div>
+          <a href="#" @click.prevent="flag=!flag">立即投递</a>
+        </div>
+      </div>
+    </article>
+    <section class="process">
+      <div class="liucheng">
+        <div class="title">
+          <h1>招聘流程</h1>
+          <h4>R&nbsp;e&nbsp;c&nbsp;r&nbsp;u&nbsp;i&nbsp;m&nbsp;e&nbsp;n&nbsp;t&nbsp;P&nbsp;r&nbsp;o&nbsp;c&nbsp;e&nbsp;s&nbsp;s</h4>
+        </div>
+      </div>
+      <div class="liuchengtu">
+        <div>
+          <img src="./resource/image/wangshen1.png" alt="">
+          <h1>网申/内推</h1>
+          <h3>7&nbsp;月&nbsp;20&nbsp;日&nbsp;-&nbsp;10&nbsp;月&nbsp;31&nbsp;日&nbsp;16:00</h3>
+        </div>
+        <div>
+          <img src="./resource/image/wangshen2.png" alt="">
+          <h1>笔试</h1>
+          <h3>8&nbsp;月上旬开始</h3>
+        </div>
+        <div>
+          <img src="./resource/image/wangshen3.png" alt="">
+          <h1>面试</h1>
+          <h3>7&nbsp;月&nbsp;20&nbsp;日开始</h3>
+        </div>
+        <div>
+          <img src="./resource/image/wangshen4.png" alt="">
+          <h1>Offer&nbsp;发放</h1>
+          <h3>8&nbsp;月上旬开始</h3>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <div class="mainbox">
+        <div>
+          <span>字节跳动(这仅仅是一份毕业设计)</span>
+          <span>2012-2020 北京字节跳动科技有限公司</span>
+          <span>京公网安备 11000002002023号</span>
+        </div>
+        <div>
+          <span>联系我们</span>
+          <span>关于投递</span>
+          <span>意见反馈</span>
+        </div>
+        <div><span>企业官网</span> <span>字节跳动</span></div>
+        <div>
+          <span>实时动态和招聘信息,请关注我们</span>
+          <ul>
+            <li><img src="resource/image/end1.png" alt="" /></li>
+            <li><img src="resource/image/end2.png" alt="" /></li>
+            <li><img src="resource/image/end3.png" alt="" /></li>
+            <li><img src="resource/image/end4.png" alt="" /></li>
+            <li><img src="resource/image/go9.png" alt="" /></li>
+            <li><img src="resource/image/go10.png" alt="" /></li>
+            <li><img src="resource/image/go4.png" alt="" /></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <section class="bottompage"></section>
+    <script src="resource/lib/vue.min.js"></script>
+    <script src="resource/lib/vue-resource.js"></script>
+    <script src="resource/lib/vue-router.js"></script>
+    <script>
+      Vue.config.internet = "http://39.103.177.23:929";
+      var vm3 = new Vue({
+        el: "#header",
+        data: {
+          flag: false,
+        },
+        methods: {
+          go() {
+            window.location.href = "position.html";
+          },
+        },
+      });
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          msg: "",
+        },
+        methods: {
+          getUser() {
+            var localuser = localStorage.getItem("user");
+            console.log("getUser 被执行了");
+            this.$http
+              .get(Vue.config.internet + "/getuser?user=" + localuser)
+              .then(function (res) {
+                console.log(res.body);
+                if (res.body == "NOMESSAGE") {
+                  this.msg = "NoLogin";
+                }
+                if (res.body == "SUCCESS") {
+                  this.msg = localuser;
+                }
+              });
+          },
+        },
+        created: function () {
+          this.getUser();
+        },
+      });
+    </script>
+  </body>
+</html>
