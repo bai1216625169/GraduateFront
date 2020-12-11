@@ -104,13 +104,13 @@
     </footer>
     <script src="resource/lib/vue.min.js"></script>
     <script src="resource/lib/vue-resource.js"></script>
-    <script src="resource/lib/vue-router.js"></script>
+    <script src="resource/lib/axios.js"></script>
     <script src="resource/lib/jquery.js"></script>
     <script src="resource/js/position.js"></script>
     <script>
       // vue 实例
-          Vue.config.internet = "http://39.103.177.23:929";
-      var vm = new Vue({
+      Vue.config.internet = "http://172.20.52.2:8080";
+          var vm = new Vue({
         el: "#appheader",
         data: {
           msg: "",
@@ -118,16 +118,14 @@
         methods: {
           getUser() {
             var localuser = localStorage.getItem("user");
-            console.log("getUser 被执行了");
-            this.$http
-              .get(Vue.config.internet+"/getuser?user=" + localuser)
+          axios
+              .get(Vue.config.internet + "/getuser?user=" + localuser)
               .then(function (res) {
-                console.log(res.body);
-                if (res.body == "NOMESSAGE") {
-                  this.msg = "NoLogin";
+                if (res.data == "账号密码错误") {
+                  vm.msg = "NoLogin";
                 }
-                if (res.body == "SUCCESS") {
-                  this.msg = localuser;
+                if (res.data == "账号密码正确") {
+                  vm.msg = localuser;
                 }
               });
           },
@@ -137,7 +135,7 @@
         },
       });
       // vue 实例
-      var dataheader = new Vue({
+      var data = new Vue({
         el: "#dataheader",
         data: {
           msg: "123",
@@ -148,18 +146,17 @@
         methods: {
             getPosition(item=1){
               this.cur=item;
-                this.$http
-              .get(Vue.config.internet+"/getposition?page="+item)
+              axios
+              .get(Vue.config.internet+"/getPosition?page="+item)
               .then(function (res) {
-                this.list=[];
-                console.log(res.body);
-                for(let i= 0 ;i<res.body.length;i++){
+                console.log(res.data);
+                data.list = [];
+                for(let i= 0 ;i<res.data.length;i++){
                   if(i<10){
-                    this.list.push(res.body[i]);
+                    data.list.push(res.data[i]);
                   }else{
-                    this.pageNumber=res.body[i].pageNumber
+                    data.pageNumber=res.data[i].pageNumber
                   }
-                
                 }
               });
             },
@@ -170,7 +167,8 @@
         },
         created:function(){
             this.getPosition();
-        },computed: {
+        },
+        computed: {
           indexs: function () {
             //  定义 一个 left 赋值 为 1
             var left = 1;

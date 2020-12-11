@@ -478,12 +478,14 @@
       </div>
     </footer>
     <section class="bottomPage"></section>
+    <script src="resource/lib/axios.js"></script>
     <script src="resource/lib/jquery.js"></script>
     <script src="resource/js/index.js"></script>
     <script src="resource/lib/vue.min.js"></script>
-    <script src="resource/lib/vue-resource.js"></script>
+
+
     <script>
-      Vue.config.internet = "http://39.103.177.23:929";
+    Vue.config.internet = "http://172.20.52.2:8080";
       var vm = new Vue({
         el: "#app",
         data: {
@@ -492,16 +494,14 @@
         methods: {
           getUser() {
             var localuser = localStorage.getItem("user");
-            console.log("getUser 被执行了");
-            this.$http
+          axios
               .get(Vue.config.internet + "/getuser?user=" + localuser)
               .then(function (res) {
-                console.log(res.body);
-                if (res.body == "NOMESSAGE") {
-                  this.msg = "NoLogin";
+                if (res.data == "账号密码错误") {
+                  vm.msg = "NoLogin";
                 }
-                if (res.body == "SUCCESS") {
-                  this.msg = localuser;
+                if (res.data == "账号密码正确") {
+                  vm.msg = localuser;
                 }
               });
           },

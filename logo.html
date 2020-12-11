@@ -42,7 +42,14 @@
             <input
               type="phone"
               placeholder="请输入登录手机号"
-              V-model="logotext"
+              v-model="logotext"
+            />
+          </div>
+          <div>
+            <input
+              type="phone"
+              placeholder="请输入登录密码"
+              v-model="logotextPassword"
             />
           </div>
           <div>
@@ -69,6 +76,13 @@
               type="phone"
               placeholder="请输入注册手机号"
               v-model="registern"
+            />
+          </div>
+          <div>
+            <input
+              type="phone"
+              placeholder="请输入注册密码"
+              v-model="registernPassword"
             />
           </div>
           <div>
@@ -110,17 +124,20 @@
     </footer>
     <section class="bottompage"></section>
     <script src="resource/lib/vue.min.js"></script>
-    <script src="resource/lib/vue-resource.js"></script>
+    <script src="resource/lib/axios.js"></script>
     <script src="resource/lib/vue-router.js"></script>
     <script>
-      Vue.config.internet = "http://39.103.177.23:929";
-
+        // // 设置 允许 携带 cookie
+        // axios.defaults.withCredentials = true;
+      Vue.config.internet = "http://172.20.52.2:8080";
       var vm2 = new Vue({
         el: "#app",
         data: {
           flag: true,
-          registern: "",
-          logotext: "",
+          registern: "17731293790",
+          registernPassword:"123",
+          logotext: "17731293790",
+          logotextPassword: "123"
         },
         methods: {
           regiter() {
@@ -129,16 +146,14 @@
                 this.registern
               )
             ) {
-              this.$http
+              axios
                 .get(
-                  Vue.config.internet + "/register?registerNu=" + this.registern
-                )
+                  Vue.config.internet + `/register?userName=${this.registern}&userPassword=${this.registernPassword}`)
                 .then(function (res) {
-                  if (res.body == "SUCCESS") {
-                    localStorage.setItem("user", this.registern);
-                    window.location.href = "index.html";
+                  if (res.data == "用户注册成功") {
+                    alert('用户注册成功')
                   }
-                  if (res.body == "already") {
+                  if (res.data == "该手机号已经注册") {
                     alert("该手机号已经注册");
                   }
                 });
@@ -146,22 +161,21 @@
               alert("请输入正确格式的手机号");
             }
           },
-
           login() {
             if (
               /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/.test(
                 this.logotext
               )
             ) {
-              this.$http
-                .get(Vue.config.internet + "/getuser?user=" + this.logotext)
+              axios
+                .get( Vue.config.internet + `/logoin?userName=${this.logotext}&userPassword=${this.logotextPassword}`)
                 .then(function (res) {
-                  console.log(res.body);
-                  if (res.body == "NOMESSAGE") {
-                    alert("账号未注册");
+                  if (res.data == "账号密码错误") {
+                    alert("账号密码错误");
                   }
-                  if (res.body == "SUCCESS") {
-                    localStorage.setItem("user", this.logotext);
+                  if (res.data == "账号密码正确") {
+                    console.log(vm2.logotext);
+                    localStorage.setItem("user", vm2.logotext);
                     window.location.href = "index.html";
                   }
                 });
@@ -181,16 +195,14 @@
         methods: {
           getUser() {
             var localuser = localStorage.getItem("user");
-            console.log("getUser 被执行了");
-            this.$http
+          axios
               .get(Vue.config.internet + "/getuser?user=" + localuser)
               .then(function (res) {
-                console.log(res.body);
-                if (res.body == "NOMESSAGE") {
-                  this.msg = "NoLogin";
+                if (res.data == "账号密码错误") {
+                  vm.msg = "NoLogin";
                 }
-                if (res.body == "SUCCESS") {
-                  this.msg = localuser;
+                if (res.data == "账号密码正确") {
+                  vm.msg = localuser;
                 }
               });
           },
