@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>登录</title>
+    <link rel="shortcut icon" href="resource/image/favicon.ico" />
+    <link rel="stylesheet" href="resource/css/individualResume.css" />
+    <link rel="stylesheet" href="resource/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="resource/css/shared.css" />
+    <link rel="stylesheet" href="resource/lib/animate.min.css" />
+  </head>
+  <body>
+    <header id="appheader">
+      <div class="logo">
+        <a href="#">毕业设计</a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">主页</a></li>
+          <li><a href="position.html">职位</a></li>
+          <li><a href="product.html">产品与服务</a></li>
+          <li><a href="recruitment.html">校园招聘</a></li>
+          <li><a href="#">|</a></li>
+          <li><a href="logo.html">登录</a></li>
+          <li><a href="#">{{ msg }}</a></li>
+          <li><a href="individualResume.html">{{ individualResume }}</a></li>
+        </ul>
+      </nav>
+    </header>
+    <section class="individualBox" id="inputDateApp">
+      <div style="display: flex; align-items: center;width: 45%;">
+        <input type="text" class="form-control" placeholder="昵称" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.nicheng">
+        <span style="margin-left:10px;">昵称</span> 
+      </div>
+      <div style="display: flex; align-items: center;width: 45%;">
+        <input type="text" class="form-control" placeholder="性别" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.xingbie">    
+        <span style="margin-left:10px;">性别</span> 
+      </div>
+      <div style="display: flex; align-items: center;width: 45%;">
+        <input type="text" class="form-control" placeholder="年龄" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.nianling">       
+        <span style="margin-left:10px;">年龄</span> 
+      </div>
+      <div style="display: flex; align-items: center;width: 45%;">
+        <input type="text" class="form-control" placeholder="学历" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.xueli">         
+        <span style="margin-left:10px;">学历</span> 
+      </div>
+      <div style="display: flex; align-items: center;width: 45%;">
+        <input type="text" class="form-control" placeholder="等级" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.dengji">           
+        <span style="margin-left:10px;">等级</span> 
+      </div>
+      <div style="display: flex; align-items: center;width: 45%;">
+        <input type="text" class="form-control" placeholder="期望薪资" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.xinzi">             
+        <span style="margin-left:10px;">期望薪资</span> 
+      </div>
+      <div style="display: flex; align-items: center;width: 45%;">
+        <input type="text" class="form-control" placeholder="家庭住址" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.zhuzhi">             
+        <span style="margin-left:10px;">家庭住址</span> 
+      </div>
+      <div style="width: 45%;">
+        <button type="button" class="btn btn-danger" @click="update" style="height: 50px;width: 90%;border-radius: 10px;" >点击上传资料</button>             
+        <span style="margin-left:10px;">点击即可</span> 
+      </div>
+
+    </section>
+    <section class="adver">
+      <img src="./resource/image/tangsan.png" alt="">
+    </section>
+    <footer>
+        <div class="mainbox">
+          <div>
+            <span>字节跳动(这仅仅是一份毕业设计)</span>
+            <span>2012-2020 北京字节跳动科技有限公司</span>
+            <span>京公网安备 11000002002023号</span>
+          </div>
+          <div>
+            <span>联系我们</span>
+            <span>关于投递</span>
+            <span>意见反馈</span>
+          </div>
+          <div><span>企业官网</span> <span>字节跳动</span></div>
+          <div>
+            <span>实时动态和招聘信息,请关注我们</span>
+            <ul>
+              <li><img src="resource/image/end1.png" alt="" /></li>
+              <li><img src="resource/image/end2.png" alt="" /></li>
+              <li><img src="resource/image/end3.png" alt="" /></li>
+              <li><img src="resource/image/end4.png" alt="" /></li>
+              <li><img src="resource/image/go9.png" alt="" /></li>
+              <li><img src="resource/image/go10.png" alt="" /></li>
+              <li><img src="resource/image/go4.png" alt="" /></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+      <script src="resource/lib/vue.min.js"></script>
+      <script src="resource/lib/axios.js"></script>
+      <script>
+        Vue.config.internet = "http://172.20.52.2:8080";
+        var vm = new Vue({
+          el: "#appheader",
+          data: {
+            msg: "",
+            individualResume:"",
+          },
+          methods: {
+            getUser() {
+              var localuser = localStorage.getItem("user");
+            axios
+                .get(Vue.config.internet + "/getuser?user=" + localuser)
+                .then(function (res) {
+                  if (res.data == "账号密码错误") {
+                    vm.msg = "NoLogin";
+                  }
+                  if (res.data == "账号密码正确") {
+                    vm.msg = localuser;
+                    this.individualResume = "个人简历"
+                  }
+                });
+            },
+          },
+          created: function () {
+            this.getUser();
+          },
+        });
+        const inputDate = new Vue({
+          el:"#inputDateApp",
+          data:{
+            dataList:{
+              nicheng:"",
+              xingbie:"",
+              nianling:"",
+              xueli:"",
+              dengji:"",
+              xinzi:"",
+              zhuzhi:""
+            }
+          },
+          methods:{
+            update(){
+              var localuser = localStorage.getItem("user");
+              axios.get(Vue.config.internet + `/updateDate?nicheng=${this.dataList.nicheng}&xingbie=${this.dataList.xingbie}&nianling=${this.dataList.nianling}&xueli=${this.dataList.xueli}&dengji=${this.dataList.dengji}&xinzi=${this.dataList.xinzi}&zhuzhi=${this.dataList.zhuzhi}&phone=${localuser}`)
+              .then((res)=>{
+                if(res.data = "写入成功"){
+                  alert('数据更改成功')
+                  this.getDate();
+                }else{
+                  alert('数据更改失败');
+                }
+              })
+            },
+            getDate(){
+              var localuser = localStorage.getItem("user");
+              axios.get(Vue.config.internet+'/getDate?phone=' + localuser).then(res=>{
+                if(res.data==0){
+                  alert('你还没有上传过资料')
+                }else{
+                this.dataList.nicheng = res.data[0].nicheng;
+                this.dataList.xingbie = res.data[0].xingbie;
+                this.dataList.nianling = res.data[0].nianling;
+                this.dataList.xueli = res.data[0].xueli;
+                this.dataList.dengji = res.data[0].dengji;
+                this.dataList.xinzi = res.data[0].xinzi;
+                this.dataList.zhuzhi = res.data[0].zhuzhi;
+                }
+              })
+            }
+          },
+          created: function () {
+          this.getDate();
+        },
+        })
+      </script>
+</body>
+</html>

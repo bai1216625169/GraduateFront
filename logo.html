@@ -23,6 +23,7 @@
           <li><a href="#">|</a></li>
           <li><a href="logo.html">登录</a></li>
           <li><a href="#">{{ msg }}</a></li>
+          <li><a href="individualResume.html">{{ individualResume }}</a></li>
         </ul>
       </nav>
     </header>
@@ -47,7 +48,7 @@
           </div>
           <div>
             <input
-              type="phone"
+              type="password"
               placeholder="请输入登录密码"
               v-model="logotextPassword"
             />
@@ -80,7 +81,7 @@
           </div>
           <div>
             <input
-              type="phone"
+              type="password"
               placeholder="请输入注册密码"
               v-model="registernPassword"
             />
@@ -91,7 +92,6 @@
             /></a>
           </div>
         </div>
-
         <!--  -->
       </div>
     </section>
@@ -134,10 +134,10 @@
         el: "#app",
         data: {
           flag: true,
-          registern: "17731293790",
-          registernPassword:"123",
-          logotext: "17731293790",
-          logotextPassword: "123"
+          registern: "",
+          registernPassword:"",
+          logotext: "",
+          logotextPassword: "",
         },
         methods: {
           regiter() {
@@ -191,6 +191,7 @@
         el: "#appheader",
         data: {
           msg: "",
+          individualResume:"",
         },
         methods: {
           getUser() {
@@ -203,6 +204,7 @@
                 }
                 if (res.data == "账号密码正确") {
                   vm.msg = localuser;
+                  this.individualResume = "个人简历"
                 }
               });
           },

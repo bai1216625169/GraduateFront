@@ -38,6 +38,7 @@
           <li><a href="#">|</a></li>
           <li><a href="logo.html">登录</a></li>
           <li><a href="#">{{ msg }}</a></li>
+          <li><a href="individualResume.html">{{ individualResume }}</a></li>
         </ul>
       </nav>
     </header>
@@ -156,6 +157,7 @@
         el: "#app",
         data: {
           msg: "123",
+          individualResume:"个人简历"
         },
         methods: {
           getUser() {
@@ -168,6 +170,7 @@
                 }
                 if (res.data == "账号密码正确") {
                   vm.msg = localuser;
+                  this.individualResume = "个人简历";
                 }
               });
           },
