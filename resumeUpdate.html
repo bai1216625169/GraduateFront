@@ -30,36 +30,36 @@
     </header>
     <section class="individualBox" id="inputDateApp">
       <div style="display: flex; align-items: center;width: 45%;">
-        <input type="text" class="form-control" placeholder="昵称" style="height: 50px;width: 90%;border-radius: 10px;" readonly v-model="dataList.nicheng">
+        <input type="text" class="form-control" placeholder="昵称" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.nicheng">
         <span style="margin-left:10px;">昵称</span> 
       </div>
       <div style="display: flex; align-items: center;width: 45%;">
-        <input type="text" class="form-control" placeholder="性别" style="height: 50px;width: 90%;border-radius: 10px;" readonly v-model="dataList.xingbie">    
+        <input type="text" class="form-control" placeholder="性别" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.xingbie">    
         <span style="margin-left:10px;">性别</span> 
       </div>
       <div style="display: flex; align-items: center;width: 45%;">
-        <input type="text" class="form-control" placeholder="年龄" style="height: 50px;width: 90%;border-radius: 10px;" readonly v-model="dataList.nianling">       
+        <input type="text" class="form-control" placeholder="年龄" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.nianling">       
         <span style="margin-left:10px;">年龄</span> 
       </div>
       <div style="display: flex; align-items: center;width: 45%;">
-        <input type="text" class="form-control" placeholder="学历" style="height: 50px;width: 90%;border-radius: 10px;" readonly v-model="dataList.xueli">         
+        <input type="text" class="form-control" placeholder="学历" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.xueli">         
         <span style="margin-left:10px;">学历</span> 
       </div>
       <div style="display: flex; align-items: center;width: 45%;">
-        <input type="text" class="form-control" placeholder="等级" style="height: 50px;width: 90%;border-radius: 10px;" readonly v-model="dataList.dengji">           
+        <input type="text" class="form-control" placeholder="等级" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.dengji">           
         <span style="margin-left:10px;">等级</span> 
       </div>
       <div style="display: flex; align-items: center;width: 45%;">
-        <input type="text" class="form-control" placeholder="期望薪资" style="height: 50px;width: 90%;border-radius: 10px;" readonly v-model="dataList.xinzi">             
+        <input type="text" class="form-control" placeholder="期望薪资" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.xinzi">             
         <span style="margin-left:10px;">期望薪资</span> 
       </div>
       <div style="display: flex; align-items: center;width: 45%;">
-        <input type="text" class="form-control" placeholder="家庭住址" style="height: 50px;width: 90%;border-radius: 10px;" readonly v-model="dataList.zhuzhi">             
+        <input type="text" class="form-control" placeholder="家庭住址" style="height: 50px;width: 90%;border-radius: 10px;" v-model="dataList.zhuzhi">             
         <span style="margin-left:10px;">家庭住址</span> 
       </div>
       <div style="width: 45%;">
-        <button type="button" class="btn btn-danger" @click="window.location.href = 'resumeUpdate.html'" style="height: 50px;width: 90%;border-radius: 10px;" >点击修改简历</button>             
-        <span style="margin-left:10px;">修改</span> 
+        <button type="button" class="btn btn-danger" @click="update" style="height: 50px;width: 90%;border-radius: 10px;" >点击更新资料</button>             
+        <span style="margin-left:10px;">更新</span> 
       </div>
 
     </section>
@@ -143,6 +143,7 @@
               .then((res)=>{
                 if(res.data = "写入成功"){
                   alert('数据更改成功')
+                  window.location.href = 'individualResume.html'
                   this.getDate();
                 }else{
                   alert('数据更改失败');
@@ -153,7 +154,7 @@
               var localuser = localStorage.getItem("user");
               axios.get(Vue.config.internet+'/getDate?phone=' + localuser).then(res=>{
                 if(res.data==0){
-                  alert('你还没有上传过资料')
+                  console.log("首次登录");
                 }else{
                 this.dataList.nicheng = res.data[0].nicheng;
                 this.dataList.xingbie = res.data[0].xingbie;

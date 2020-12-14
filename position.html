@@ -110,12 +110,12 @@
     <script src="resource/js/position.js"></script>
     <script>
       // vue 实例
-      Vue.config.internet = "http://172.20.52.2:8080";
+      Vue.config.internet = "http://39.103.177.23:521";
           var vm = new Vue({
         el: "#appheader",
         data: {
           msg: "",
-          individualResume:"个人简历"
+          individualResume:""
         },
         methods: {
           getUser() {
@@ -128,7 +128,7 @@
                 }
                 if (res.data == "账号密码正确") {
                   vm.msg = localuser;
-                  this.individualResume = "个人简历"
+                  vm.individualResume = "个人简历"
                 }
               });
           },
@@ -141,7 +141,7 @@
       var data = new Vue({
         el: "#dataheader",
         data: {
-          msg: "123",
+          msg: "",
           list:[],
           pageNumber:10,
           cur:1

@@ -129,7 +129,7 @@
     <script>
         // // 设置 允许 携带 cookie
         // axios.defaults.withCredentials = true;
-      Vue.config.internet = "http://172.20.52.2:8080";
+        Vue.config.internet = "http://39.103.177.23:521";
       var vm2 = new Vue({
         el: "#app",
         data: {
@@ -152,6 +152,7 @@
                 .then(function (res) {
                   if (res.data == "用户注册成功") {
                     alert('用户注册成功')
+                    vm2.flag = true;
                   }
                   if (res.data == "该手机号已经注册") {
                     alert("该手机号已经注册");
@@ -174,7 +175,6 @@
                     alert("账号密码错误");
                   }
                   if (res.data == "账号密码正确") {
-                    console.log(vm2.logotext);
                     localStorage.setItem("user", vm2.logotext);
                     window.location.href = "index.html";
                   }
@@ -204,7 +204,7 @@
                 }
                 if (res.data == "账号密码正确") {
                   vm.msg = localuser;
-                  this.individualResume = "个人简历"
+                  vm.individualResume = "个人简历"
                 }
               });
           },
